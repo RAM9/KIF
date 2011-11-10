@@ -44,7 +44,7 @@ static NSArray *defaultStepsToTearDown = nil;
         scenario.skippedByFilter = ([description rangeOfString:filter options:NSRegularExpressionSearch].location == NSNotFound);
     }
     
-    return [scenario autorelease];
+    return scenario;
 }
 
 + (void)setDefaultStepsToSetUp:(NSArray *)steps;
@@ -53,8 +53,7 @@ static NSArray *defaultStepsToTearDown = nil;
         return;
     }
     
-    [defaultStepsToSetUp release];
-    defaultStepsToSetUp = [steps copy];
+    defaultStepsToSetUp = steps;
 }
 
 + (NSArray *)defaultStepsToSetUp;
@@ -68,8 +67,7 @@ static NSArray *defaultStepsToTearDown = nil;
         return;
     }
     
-    [defaultStepsToTearDown release];
-    defaultStepsToTearDown = [steps copy];
+    defaultStepsToTearDown = steps;
 }
 
 + (NSArray *)defaultStepsToTearDown;
@@ -94,11 +92,10 @@ static NSArray *defaultStepsToTearDown = nil;
 
 - (void)dealloc
 {
-    [steps release]; steps = nil;
-    [stepsToSetUp release]; stepsToSetUp = nil;
-    [stepsToTearDown release]; stepsToTearDown = nil;
-    [description release]; description = nil;
-    
+     steps = nil;
+     stepsToSetUp = nil;
+     stepsToTearDown = nil;
+    description = nil;
     [super dealloc];
 }
 
@@ -144,7 +141,6 @@ static NSArray *defaultStepsToTearDown = nil;
     [steps removeObjectsInRange:NSMakeRange(0, stepsToSetUp.count)];
     [steps insertObjects:inStepsToSetUp atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, inStepsToSetUp.count)]];
     
-    [stepsToSetUp release];
     stepsToSetUp = [inStepsToSetUp copy];
 }
 
@@ -159,7 +155,6 @@ static NSArray *defaultStepsToTearDown = nil;
     [steps removeObjectsInRange:NSMakeRange(steps.count - stepsToTearDown.count, stepsToTearDown.count)];
     [steps insertObjects:inStepsToTearDown atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(steps.count, inStepsToTearDown.count)]];
     
-    [stepsToTearDown release];
     stepsToTearDown = [inStepsToTearDown copy];
 }
 
